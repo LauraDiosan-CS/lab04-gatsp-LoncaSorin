@@ -46,38 +46,6 @@ class Chromosome:
         offspring.repres = newrepres
         return offspring
     
-    def _rand_subpath(self):
-        i = j = randint(-1, self.__problParam['noNodes'] - 1)
-
-        while i == j:
-            j = randint(-1, self.__problParam['noNodes'] - 1)
-
-        return min(i, j), max(i, j)
-
-    def _crossover_ox(self, c):
-
-        # Initial child path
-        child = Chromosome(self.__problParam)
-
-        # Copy random subpath from parent 1 to child
-        start, end = self._rand_subpath()
-        subpath = self.__repres[start:end+1]
-        tmp = c.__repres
-
-        # Rotate tmp with pivot in the end + 1
-        tmp = tmp[end+1:] + tmp[:end+1]
-        # Remove cities found in subpath from parent 2
-        tmp = list(filter(lambda x: x not in subpath, tmp))
-
-        # Join subpath and tmp to form a child
-        child.__repres = subpath + tmp
-
-        # Rotate the path so it always starts at 0
-        last_zero_idx = len(child.__repres) - child.__repres[::-1].index(0) - 1
-        child.__repres = child.__repres[last_zero_idx:] + child.__repres[:last_zero_idx]
-
-        return child
-    
     def mutation(self):
         pos1 = randint(-1, self.__problParam['noNodes'] - 1)
         pos2 = randint(-1, self.__problParam['noNodes'] - 1)
